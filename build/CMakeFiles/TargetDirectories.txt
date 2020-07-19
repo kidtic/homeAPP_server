@@ -1,0 +1,5 @@
+/home/kk/SynologyDrive/bigProject/homeApp/build/CMakeFiles/edit_cache.dir
+/home/kk/SynologyDrive/bigProject/homeApp/build/CMakeFiles/server.dir
+/home/kk/SynologyDrive/bigProject/homeApp/build/CMakeFiles/rebuild_cache.dir
+/home/kk/SynologyDrive/bigProject/homeApp/build/CMakeFiles/aestest.dir
+/home/kk/SynologyDrive/bigProject/homeApp/build/CMakeFiles/homeApp.dir

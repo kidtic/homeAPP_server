@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9   -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W   -o CMakeFiles/server.dir/test/server.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/test/server.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/test/server.cpp"
+},
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9   -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W   -o CMakeFiles/aestest.dir/test/aestest.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/test/aestest.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/test/aestest.cpp"
+},
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9  -DhomeApp_EXPORTS -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W -fPIC   -o CMakeFiles/homeApp.dir/src/homeAppComm.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/src/homeAppComm.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/src/homeAppComm.cpp"
+},
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9  -DhomeApp_EXPORTS -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W -fPIC   -o CMakeFiles/homeApp.dir/src/homeAppCore.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/src/homeAppCore.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/src/homeAppCore.cpp"
+},
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9  -DhomeApp_EXPORTS -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W -fPIC   -o CMakeFiles/homeApp.dir/src/homeAppSys.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/src/homeAppSys.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/src/homeAppSys.cpp"
+},
+{
+  "directory": "/home/kk/SynologyDrive/bigProject/homeApp/build",
+  "command": "/bin/g++-9  -DhomeApp_EXPORTS -I/home/kk/SynologyDrive/bigProject/homeApp/include   -O3 -W -fPIC   -o CMakeFiles/homeApp.dir/src/dbsql.cpp.o -c /home/kk/SynologyDrive/bigProject/homeApp/src/dbsql.cpp",
+  "file": "/home/kk/SynologyDrive/bigProject/homeApp/src/dbsql.cpp"
+}
+]

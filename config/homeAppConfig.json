@@ -1,0 +1,11 @@
+{
+    "users":[
+        {"username":"kk","passwd":"133z195"},
+        {"username":"jh","passwd":"133z195"}
+    ],
+    "port":2333,
+    "mysqlurl":"kidticzou.com",
+    "mysqluser":"kidtic",
+    "mysqlpasswd":"133z195",
+    "mysqldb":"homeAPP"
+}
