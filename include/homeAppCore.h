@@ -26,7 +26,9 @@ private:
     queue<Json::Value> tasks;
     vector<AppUser> users;
     //
-    DBsql mydb;
+
+    //database 
+    string mysqlurl,mysqluser,mysqlpasswd,mysqldb;
 public:
     homeAppCore(vector<AppUser>users,string mysqlurl,string mysqluser,string mysqlpasswd,string mysqldb);
     ~homeAppCore();

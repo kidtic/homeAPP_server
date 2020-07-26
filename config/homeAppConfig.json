@@ -1,6 +1,6 @@
 {
     "users":[
-        {"username":"kk","passwd":"133z195"},
+        {"username":"root","passwd":"133z195"},
         {"username":"jh","passwd":"133z195"}
     ],
     "port":2333,

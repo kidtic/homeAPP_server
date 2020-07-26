@@ -5,7 +5,11 @@ using namespace std;
 homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,string mysqluser,string mysqlpasswd,string mysqldb)
 {
     this->users=users;
-    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    //mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    this->mysqlurl=mysqlurl;
+    this->mysqluser=mysqluser;
+    this->mysqlpasswd=mysqlpasswd;
+    this->mysqldb=mysqldb;
 }
 
 homeAppCore::~homeAppCore()
@@ -97,6 +101,11 @@ Json::Value homeAppCore::doPayChangeTask(Json::Value task){
     return res;
 }
 Json::Value homeAppCore::doPayReturnTask(Json::Value task){
+    cout<<"doPayReturnTask"<<endl;
+    DBsql mydb;
+    cout<<"ok1"<<endl;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    cout<<"ok2"<<endl;
     vector<vector<string>> data= mydb.getAllData("pay");
     Json::Value res;
     res["head"]="result";res["part"]="pay";
@@ -118,7 +127,9 @@ Json::Value homeAppCore::doPayReturnTask(Json::Value task){
 
 
 bool homeAppCore::pay_change(float change,string ps,bool star){
-    
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+
     //查看pay表有多少条记录
     int len=mydb.getDataLen("pay");
     
