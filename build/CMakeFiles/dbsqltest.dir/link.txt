@@ -1,1 +1,0 @@
-/bin/g++-9   -O3 -W  -rdynamic CMakeFiles/dbsqltest.dir/test/dbsqltest.cpp.o  -o ../bin/dbsqltest   -L/home/kk/SynologyDrive/bigProject/homeApp/build/lib  -L/usr/local/lib  -Wl,-rpath,/home/kk/SynologyDrive/bigProject/homeApp/build/lib:/usr/local/lib:/home/kk/SynologyDrive/bigProject/homeApp/lib ../lib/libhomeApp.so -lcryptopp -lmysqlclient -ljsoncpp 
