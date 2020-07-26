@@ -42,7 +42,7 @@ add_executable(aestest test/aestest.cpp)
 target_link_libraries(aestest ${PROJECT_NAME})
 
 
-add_executable(server test/server.cpp)
-target_link_libraries(server ${PROJECT_NAME})
+add_executable(homeApp_server test/server.cpp)
+target_link_libraries(homeApp_server ${PROJECT_NAME})
 
 
