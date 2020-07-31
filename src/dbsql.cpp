@@ -8,8 +8,8 @@ DBsql::DBsql()
     if(mysql==NULL)
     {
         errormsg=string(mysql_error(mysql));
-        cout << "Error: " << errormsg;
-        exit(1);
+        cout << "mysql_init Error: " << errormsg;
+        
     }
 }
 
@@ -39,8 +39,7 @@ bool DBsql::initDB(string host,string user,string passwd,string db_name)
     if(mysql == NULL)  
     {  
         errormsg=string(mysql_error(mysql));
-        cout << "Error: " << errormsg;
-        exit(1);  
+        cout << "mysql_real_connect Error: " << errormsg;
     }  
     return true;  
 }

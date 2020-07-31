@@ -25,6 +25,9 @@ Json::Value homeAppCore::doTask(Json::Value task){
         else if(task["part"].asString()=="pay"){
             res=doPayTask(task);
         }
+        else if(task["part"].asString()=="save"){
+            res=doSaveTask(task);
+        }
     }
 
 
@@ -103,9 +106,7 @@ Json::Value homeAppCore::doPayChangeTask(Json::Value task){
 Json::Value homeAppCore::doPayReturnTask(Json::Value task){
     cout<<"doPayReturnTask"<<endl;
     DBsql mydb;
-    cout<<"ok1"<<endl;
     mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
-    cout<<"ok2"<<endl;
     vector<vector<string>> data= mydb.getAllData("pay");
     Json::Value res;
     res["head"]="result";res["part"]="pay";
@@ -124,7 +125,57 @@ Json::Value homeAppCore::doPayReturnTask(Json::Value task){
 
 }   
 
+Json::Value homeAppCore::doSaveTask(Json::Value task){
+    Json::Value res;
+    if(task["func"].asString()=="changetarget"){
+        res=doSaveChangeTargetTask(task);
+    }
+    else if(task["func"].asString()=="changemoney"){
+        res=doSaveChangeMoneyTask(task);
+    }
+    else if(task["func"].asString()=="return"){
+        res=doSaveReturnTask(task);
+    }
 
+    return res;
+}
+
+Json::Value homeAppCore::doSaveChangeMoneyTask(Json::Value task){
+
+}
+Json::Value homeAppCore::doSaveChangeTargetTask(Json::Value task){
+
+}
+Json::Value homeAppCore::doSaveReturnTask(Json::Value task){
+    cout<<"doSaveReturnTask"<<endl;
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    vector<vector<string>> data= mydb.getAllData("savemoney");
+    Json::Value res;
+    res["head"]="result";res["part"]="save";
+    res["func"]="return";res["user"]=task["user"].asString();
+    for(int i=0;i<data.size();i++){
+        Json::Value inin;
+        inin["time"]=data[i][0];
+        inin["target"]=data[i][1];
+        inin["money"]=data[i][2];
+        inin["targetchange"]=data[i][3];
+        inin["moneychange"]=data[i][4];
+        inin["ps"]=data[i][5];
+        inin["star"]=data[i][6];
+        res["data"].append(inin);
+    }
+
+    return res; 
+}
+
+
+bool save_changeTarget(float change,string ps,bool star=false){
+    return true;
+}
+bool save_changeMoney(float change,string ps,bool star=false){
+    return true;
+}
 
 bool homeAppCore::pay_change(float change,string ps,bool star){
     DBsql mydb;

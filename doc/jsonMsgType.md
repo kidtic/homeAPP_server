@@ -130,12 +130,12 @@
 ```json
 {
     "head":"request",  
-    "part":"pay",
-    "func":"change",
+    "part":"save",
+    "func":"changetarget",
     "user":"zzq",       //用户名称
     "ip":"",            //用户的ip地址
     "data":{
-        "changeNumber":-1.5,    //变动数额
+        "changeTarget":-1.5,    //变动数额
         "ps":"说明",
         "star":false            //标记，一般为false
     }
@@ -145,19 +145,82 @@
 ```json
 {
     "head":"result",  
-    "part":"pay",
-    "func":"change",
+    "part":"save",
+    "func":"changetarget",
     "user":"zzq",       //用户名称
     "ip":"",            //用户的ip地址
     "data":{
         "result":"ok",    //  ok/error:error content
-        "time":"2020-07-14 17:50:23",
-        "changeNumber":-1.5,
-        "money":1536.6,
-        "ps":"说明",
-        "star":false
     }
 }
 ```
-## 3.万元计划：改变当前储蓄
+## 4.万元计划：改变当前储蓄
+* 客户端发送：
+```json
+{
+    "head":"request",  
+    "part":"save",
+    "func":"changemoney",
+    "user":"zzq",       //用户名称
+    "ip":"",            //用户的ip地址
+    "data":{
+        "changeMoney":-1.5,    //变动数额
+        "ps":"说明",
+        "star":false            //标记，一般为false
+    }
+}
+```
+* 服务端返回
+```json
+{
+    "head":"result",  
+    "part":"save",
+    "func":"changemoney",
+    "user":"zzq",       //用户名称
+    "ip":"",            //用户的ip地址
+    "data":{
+        "result":"ok",    //  ok/error:error content
+    }
+}
+```
+
+## 万元计划：返回列表
+```json
+{
+    "head":"request",  
+    "part":"save",
+    "func":"return",
+    "user":"kk",       //用户名称
+}
+```
+* 服务端返回
+```json
+{
+    "head":"result",  
+    "part":"save",
+    "func":"return",
+    "user":"kk",       //用户名称
+    "data":[
+        {
+            "time":"",
+            "target":"",
+            "money":"",
+            "targetchange":"",
+            "moneychange":"",
+            "ps":"",
+            "star":""
+        },
+        {
+            "time":"",
+            "target":"",
+            "money":"",
+            "targetchange":"",
+            "moneychange":"",
+            "ps":"",
+            "star":""
+        }
+    ]
+}
+```
+
 

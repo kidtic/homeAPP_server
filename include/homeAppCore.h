@@ -45,7 +45,13 @@ public:
     Json::Value doPayTask(Json::Value task);
     Json::Value doPayChangeTask(Json::Value task);
     Json::Value doPayReturnTask(Json::Value task);
-
+    Json::Value doSaveTask(Json::Value task);
+    Json::Value doSaveChangeMoneyTask(Json::Value task);
+    Json::Value doSaveChangeTargetTask(Json::Value task);
+    Json::Value doSaveReturnTask(Json::Value task);
+    //万元计划执行
+    bool save_changeTarget(float change,string ps,bool star=false);
+    bool save_changeMoney(float change,string ps,bool star=false);
 
 
     //pay功能
