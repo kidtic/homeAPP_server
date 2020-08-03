@@ -21,7 +21,7 @@ using namespace std;
 
 class homeAppCore
 {
-private:
+private:   //priv
     /* data */
     queue<Json::Value> tasks;
     vector<AppUser> users;
@@ -42,13 +42,19 @@ public:
     Json::Value doBasicTask(Json::Value task);
     Json::Value doBasicLoginTask(Json::Value task);
     Json::Value doBasicRetrunTask(Json::Value task);
+
     Json::Value doPayTask(Json::Value task);
     Json::Value doPayChangeTask(Json::Value task);
     Json::Value doPayReturnTask(Json::Value task);
+    Json::Value doPayReturnLastTask(Json::Value task);
+    Json::Value doPayReturnMonthbillTask(Json::Value task);
+
     Json::Value doSaveTask(Json::Value task);
     Json::Value doSaveChangeMoneyTask(Json::Value task);
     Json::Value doSaveChangeTargetTask(Json::Value task);
     Json::Value doSaveReturnTask(Json::Value task);
+    Json::Value doSaveReturnLastTask(Json::Value task);
+
     //万元计划执行
     bool save_changeTarget(float change,string ps,bool star=false);
     bool save_changeMoney(float change,string ps,bool star=false);

@@ -40,6 +40,7 @@ bool DBsql::initDB(string host,string user,string passwd,string db_name)
     {  
         errormsg=string(mysql_error(mysql));
         cout << "mysql_real_connect Error: " << errormsg;
+        return false;
     }  
     return true;  
 }

@@ -2,6 +2,8 @@
 从**客户端**发送请求json文件，由**服务端**解析处理后向**客户端**发送结果json文件  
 以下对json内容进行说明
 
+
+
 ## 1.特殊的json请求------请求返回服务端的命令队列
 客户端需要不断发送请求1，这样提供了服务端主动联系客户端的机会。  
 * 客户端发送：
@@ -53,7 +55,7 @@
 }
 ```
 
-
+---------
 ## 3-1.pay功能请求：余额变动
 * 客户端发送：
 ```json
@@ -62,7 +64,6 @@
     "part":"pay",
     "func":"change",
     "user":"root",       //用户名称
-    "ip":"",            //用户的ip地址
     "data":{
         "changeNumber":-1.5,    //变动数额
         "ps":"说明",
@@ -78,14 +79,7 @@
     "func":"change",
     "user":"root",       //用户名称
     "ip":"",            //用户的ip地址
-    "data":{
-        "result":"ok",    //  ok/error:error content
-        "time":"2020-07-14 17:50:23",
-        "changeNumber":-1.5,
-        "money":1536.6,
-        "ps":"说明",
-        "star":false
-    }
+    "result":"ok"    //  ok/error:error content
 }
 ```
 
@@ -106,6 +100,74 @@
     "part":"pay",
     "func":"return",
     "user":"kk",       //用户名称
+    "result":"ok",   //ok/error:
+    "data":[
+        {
+            "time":"",
+            "moneychange":"",
+            "money":"",
+            "ps":"",
+            "star":""
+        },
+        {
+            "time":"",
+            "moneychange":"",
+            "money":"",
+            "ps":"",
+            "star":""
+        }
+    ]
+}
+```
+## 3-3.pay功能请求：返回账单最后一行
+```json
+{
+    "head":"request",  
+    "part":"pay",
+    "func":"returnlast",
+    "user":"kk",       //用户名称
+    "time":"2020-07-14 17:50:23"
+}
+```
+```json
+{
+    "head":"result",  
+    "part":"pay",
+    "func":"returnlast",
+    "user":"kk",       //用户名称
+    "result":"ok",
+    "data":{
+            "time":"",
+            "moneychange":"",
+            "money":"",
+            "ps":"",
+            "star":""
+        }
+        
+}
+```
+## 3-4.pay功能请求：返回yyyy年mm月份的账单
+```json
+{
+    "head":"request",  
+    "part":"pay",
+    "func":"returnmonthbill",
+    "user":"kk",       //用户名称
+    "time":"2020-07-14 17:50:23",
+    "data":{
+        "month":"07",
+        "year":"2020"
+    }
+}
+```
+* 服务端返回
+```json
+{
+    "head":"result",  
+    "part":"pay",
+    "func":"returnmonthbill",
+    "user":"kk",       //用户名称
+    "result":"ok",
     "data":[
         {
             "time":"",
@@ -125,7 +187,9 @@
 }
 ```
 
-## 4.万元计划：改变当前应存
+--------------------
+
+## 4-1.万元计划：改变当前应存
 * 客户端发送：
 ```json
 {
@@ -149,12 +213,10 @@
     "func":"changetarget",
     "user":"zzq",       //用户名称
     "ip":"",            //用户的ip地址
-    "data":{
-        "result":"ok",    //  ok/error:error content
-    }
+    "result":"ok"     //ok/error
 }
 ```
-## 4.万元计划：改变当前储蓄
+## 4-2.万元计划：改变当前储蓄
 * 客户端发送：
 ```json
 {
@@ -178,13 +240,11 @@
     "func":"changemoney",
     "user":"zzq",       //用户名称
     "ip":"",            //用户的ip地址
-    "data":{
-        "result":"ok",    //  ok/error:error content
-    }
+    "result":"ok"     //ok/error
 }
 ```
 
-## 万元计划：返回列表
+## 4-3.万元计划：返回列表
 ```json
 {
     "head":"request",  
@@ -200,6 +260,7 @@
     "part":"save",
     "func":"return",
     "user":"kk",       //用户名称
+    "result":"ok",
     "data":[
         {
             "time":"",
@@ -222,5 +283,36 @@
     ]
 }
 ```
+
+## 4-4 万元计划：返回最后一列数据
+```json
+{
+    "head":"request",  
+    "part":"save",
+    "func":"returnlast",
+    "user":"kk",       //用户名称
+}
+```
+* 服务端返回
+```json
+{
+    "head":"result",  
+    "part":"save",
+    "func":"returnlast",
+    "user":"kk",       //用户名称
+    "result":"ok",      //ok/error
+    "data":{
+        "time":"",
+        "target":"",
+        "money":"",
+        "targetchange":"",
+        "moneychange":"",
+        "ps":"",
+        "star":""
+    }
+    
+}
+```
+
 
 

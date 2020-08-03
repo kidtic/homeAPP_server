@@ -10,7 +10,7 @@ using namespace std;
 
 class homeAppSys
 {
-private:
+public:  //priv
     /* data */
     homeAppCore* mCore;
     homeAppComm* mComm;

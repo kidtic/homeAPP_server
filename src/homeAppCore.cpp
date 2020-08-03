@@ -82,6 +82,15 @@ Json::Value homeAppCore::doPayTask(Json::Value task){
     else if(task["func"].asString()=="return"){
         res=doPayReturnTask(task);
     }
+    else if (task["func"].asString()=="returnlast")
+    {
+        res=doPayReturnLastTask(task);
+    }
+    else if (task["func"].asString()=="returnmonthbill")
+    {
+        res=doPayReturnMonthbillTask(task);
+    }
+    
 
     return res;
 }
@@ -92,25 +101,36 @@ Json::Value homeAppCore::doPayChangeTask(Json::Value task){
     Json::Value res;
     res["head"]="result";res["part"]="pay";
     res["func"]="change";res["user"]=task["user"].asString();
-    Json::Value datajson;
+
     if(pay_change(changemoney,psstr,star)==true){
-        datajson["result"]="ok";
+        res["result"]="ok";
     }
     else
     {
-        datajson["result"]="error";
+        res["result"]="error";
     }
-    res["data"]=datajson;
+    
+
+
     return res;
 }
 Json::Value homeAppCore::doPayReturnTask(Json::Value task){
     cout<<"doPayReturnTask"<<endl;
-    DBsql mydb;
-    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
-    vector<vector<string>> data= mydb.getAllData("pay");
     Json::Value res;
     res["head"]="result";res["part"]="pay";
-    res["func"]="return";res["user"]=task["user"].asString();
+    res["func"]="return";res["user"]=task["user"].asString(); 
+
+    DBsql mydb;
+    if(!mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb)){
+        res["result"]="error: mysql initDB error";
+        return res;
+    }
+    vector<vector<string>> data= mydb.getAllData("pay");
+    if(data.size()==0){
+        res["result"]="error: mysql getAllData return empty";
+        return res;
+    }
+
     for(int i=0;i<data.size();i++){
         Json::Value inin;
         inin["time"]=data[i][0];
@@ -120,10 +140,73 @@ Json::Value homeAppCore::doPayReturnTask(Json::Value task){
         inin["star"]=data[i][4];
         res["data"].append(inin);
     }
-
+    res["result"]="ok";
     return res;
 
 }   
+Json::Value homeAppCore::doPayReturnLastTask(Json::Value task){
+    cout<<"doPayReturnLastTask"<<endl;
+    Json::Value res;
+    res["head"]="result";res["part"]="pay";
+    res["func"]="returnlast";res["user"]=task["user"].asString();
+
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    int paytableLen=mydb.getDataLen("pay");
+
+    vector<vector<string>> data= mydb.getData("pay",paytableLen-1,1);
+    if(data.size()!=1){
+        cout<<"Error:doPayReturnLastTask getData lenght != 1"<<endl;
+        res["result"]="Error:doPayReturnLastTask getData lenght != 1";
+        return res;
+    }
+
+    Json::Value inin;
+    inin["time"]=data[0][0];
+    inin["moneychange"]=data[0][1];
+    inin["money"]=data[0][2];
+    inin["ps"]=data[0][3];
+    inin["star"]=data[0][4];
+    res["data"]=inin;
+
+    res["result"]="ok";
+    return res;
+
+}
+Json::Value homeAppCore::doPayReturnMonthbillTask(Json::Value task){
+    cout<<"doPayReturnMonthbillTask"<<endl;
+    Json::Value res;
+    res["head"]="result";res["part"]="pay";
+    res["func"]="returnmonthbill";res["user"]=task["user"].asString(); 
+
+    DBsql mydb;
+    if(!mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb)){
+        res["result"]="error: mysql initDB error";
+        return res;
+    }
+    //解析 查询
+
+    string sqlstr="select * from `pay`  where time like ";
+    sqlstr=sqlstr+"'"+task["data"]["year"].asString()+"-"+task["data"]["month"].asString()+"%'";
+    vector<vector<string>> data= mydb.getDataWithSQL(sqlstr);
+    if(data.size()==0){
+        res["result"]="error: mysql getDataWithSQL return empty";
+        return res;
+    }
+
+    for(int i=0;i<data.size();i++){
+        Json::Value inin;
+        inin["time"]=data[i][0];
+        inin["moneychange"]=data[i][1];
+        inin["money"]=data[i][2];
+        inin["ps"]=data[i][3];
+        inin["star"]=data[i][4];
+        res["data"].append(inin);
+    }
+    res["result"]="ok";
+    return res;
+}
+
 
 Json::Value homeAppCore::doSaveTask(Json::Value task){
     Json::Value res;
@@ -136,24 +219,50 @@ Json::Value homeAppCore::doSaveTask(Json::Value task){
     else if(task["func"].asString()=="return"){
         res=doSaveReturnTask(task);
     }
+    else if(task["func"].asString()=="returnlast"){
+        res=doSaveReturnLastTask(task);
+    }
 
     return res;
 }
-
 Json::Value homeAppCore::doSaveChangeMoneyTask(Json::Value task){
-
+    cout<<"doSaveChangeMoneyTask"<<endl;
+     Json::Value res;
+    res["head"]="result";res["part"]="save";
+    res["func"]="changemoney";res["user"]=task["user"].asString();
+    
+    
+    res["result"]="working ...";
+    return res;
 }
 Json::Value homeAppCore::doSaveChangeTargetTask(Json::Value task){
-
+    cout<<"doSaveChangeTargetTask"<<endl;
+     Json::Value res;
+    res["head"]="result";res["part"]="save";
+    res["func"]="changetarget";res["user"]=task["user"].asString();
+    
+    
+    res["result"]="working ...";
+    return res;
 }
 Json::Value homeAppCore::doSaveReturnTask(Json::Value task){
     cout<<"doSaveReturnTask"<<endl;
-    DBsql mydb;
-    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
-    vector<vector<string>> data= mydb.getAllData("savemoney");
     Json::Value res;
     res["head"]="result";res["part"]="save";
     res["func"]="return";res["user"]=task["user"].asString();
+
+    DBsql mydb;
+    if(!mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb)){
+        res["result"]="error: mysql initDB error";
+        return res;
+    }
+
+    vector<vector<string>> data= mydb.getAllData("savemoney");
+    if(data.size()==0){
+        res["result"]="error: mysql getAllData return empty";
+        return res;
+    }
+    
     for(int i=0;i<data.size();i++){
         Json::Value inin;
         inin["time"]=data[i][0];
@@ -166,14 +275,48 @@ Json::Value homeAppCore::doSaveReturnTask(Json::Value task){
         res["data"].append(inin);
     }
 
+    res["result"]="ok";
     return res; 
 }
+Json::Value homeAppCore::doSaveReturnLastTask(Json::Value task){
+    cout<<"doSaveReturnLastTask"<<endl;
+    Json::Value res;
+    res["head"]="result";res["part"]="save";
+    res["func"]="returnlast";res["user"]=task["user"].asString();
+
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    int tableLen=mydb.getDataLen("savemoney");
+
+    vector<vector<string>> data= mydb.getData("savemoney",tableLen-1,1);
+    if(data.size()!=1){
+        cout<<"Error:doSaveReturnLastTask getData lenght != 1"<<endl;
+        res["result"]="Error:doSaveReturnLastTask getData lenght != 1";
+        return res;
+    }
+
+    Json::Value inin;
+    inin["time"]=data[0][0];
+    inin["target"]=data[0][1];
+    inin["money"]=data[0][2];
+    inin["targetchange"]=data[0][3];
+    inin["moneychange"]=data[0][4];
+    inin["ps"]=data[0][5];
+    inin["star"]=data[0][6];
+    res["data"]=inin;
+
+    res["result"]="ok";
+    return res;
+
+}
 
 
-bool save_changeTarget(float change,string ps,bool star=false){
+
+
+bool homeAppCore::save_changeTarget(float change,string ps,bool star){
     return true;
 }
-bool save_changeMoney(float change,string ps,bool star=false){
+bool homeAppCore::save_changeMoney(float change,string ps,bool star){
     return true;
 }
 

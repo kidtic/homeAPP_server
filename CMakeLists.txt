@@ -46,3 +46,6 @@ add_executable(homeApp_server test/server.cpp)
 target_link_libraries(homeApp_server ${PROJECT_NAME})
 
 
+add_executable(dotaskTest test/dotaskTest.cpp)
+target_link_libraries(dotaskTest ${PROJECT_NAME})
+
