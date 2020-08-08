@@ -2,7 +2,9 @@
 
 using namespace std;
 
-homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,string mysqluser,string mysqlpasswd,string mysqldb)
+homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,
+                        string mysqluser,string mysqlpasswd,
+                        string mysqldb,string version)
 {
     this->users=users;
     //mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
@@ -10,6 +12,7 @@ homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,string mysqluser,
     this->mysqluser=mysqluser;
     this->mysqlpasswd=mysqlpasswd;
     this->mysqldb=mysqldb;
+    this->version=version;
 }
 
 homeAppCore::~homeAppCore()
@@ -52,21 +55,23 @@ Json::Value homeAppCore::doBasicLoginTask(Json::Value task){
 
     Json::Value res;
     string us=task["user"].asString();
+    res["head"]="result";
+    res["part"]="basic";
+    res["func"]="login";
+    res["user"]=us;
+    Json::Value data;
+    data["version"]=version;
+    res["data"]=data;
     //find
     for(auto e:users){
         cout<<e.username<<" "<<us<<endl;
-        if(e.username==us){
-            res["head"]="result";
-            res["part"]="basic";
-            res["func"]="login";
-            res["user"]=us;
-            res["data"]="ok";
+        if(e.username==us){  
+            res["result"]="ok";
             return res;
         }
     }
-    res["head"]="result";res["part"]="basic";
-    res["func"]="login";res["user"]=us;
-    res["data"]="no user";
+    res["result"]="error:no user";
+    
     return res;
 }
 Json::Value homeAppCore::doBasicRetrunTask(Json::Value task){

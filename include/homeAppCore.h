@@ -29,8 +29,12 @@ private:   //priv
 
     //database 
     string mysqlurl,mysqluser,mysqlpasswd,mysqldb;
+    //系统版本号
+    string version;
 public:
-    homeAppCore(vector<AppUser>users,string mysqlurl,string mysqluser,string mysqlpasswd,string mysqldb);
+    homeAppCore(vector<AppUser>users,string mysqlurl,
+                string mysqluser,string mysqlpasswd,
+                string mysqldb,string version);
     ~homeAppCore();
     
     

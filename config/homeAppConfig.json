@@ -7,5 +7,7 @@
     "mysqlurl":"kidticzou.com",
     "mysqluser":"kidtic",
     "mysqlpasswd":"133z195",
-    "mysqldb":"homeAPP"
+    "mysqldb":"homeAPP",
+    "version":"1.5.0"
+
 }

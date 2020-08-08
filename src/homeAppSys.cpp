@@ -23,7 +23,8 @@ homeAppSys::homeAppSys(string configPath)
     mCore = new homeAppCore(this->users,mConfig["mysqlurl"].asString(),
                             mConfig["mysqluser"].asString(),
                             mConfig["mysqlpasswd"].asString(),
-                            mConfig["mysqldb"].asString());
+                            mConfig["mysqldb"].asString(),
+                            mConfig["version"].asString());
     cout<<"sys finish"<<endl;
 
 

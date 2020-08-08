@@ -51,7 +51,10 @@
     "part":"basic",
     "func":"login",
     "user":"zzq",       //用户名称
-    "data":"ok"
+    "result":"ok",
+    "data":{
+        "version":"1.5.0"
+    }
 }
 ```
 
