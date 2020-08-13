@@ -25,6 +25,7 @@ homeAppSys::homeAppSys(string configPath)
                             mConfig["mysqlpasswd"].asString(),
                             mConfig["mysqldb"].asString(),
                             mConfig["version"].asString());
+    mInterestRate=mConfig["InterestRate"].asFloat();
     cout<<"sys finish"<<endl;
 
 
@@ -37,8 +38,43 @@ homeAppSys::~homeAppSys()
     
 }
 
+void homeAppSys::timerun(){
+
+    while (1)
+    {
+        /* code */
+        DateTime t=DateTime();
+        //每天8点的定时算利息
+        if(t.hour==19 && t.minute==45 && t.sec==50){
+            //获得最后一个
+            vector<string> savedata=mCore->save_returnlast();
+            float target=atof(savedata[1].c_str());
+            float money=atof(savedata[2].c_str());
+            float rate;
+            //判断是正利率还是负利率
+            if(money>=target)rate=mInterestRate;
+            else rate=-mInterestRate;
+            float moneychange=money*rate/10000.0;
+            mCoreMutex.lock();
+            mCore->save_changeMoney(moneychange,"万元计划利息");
+            mCoreMutex.unlock();
+
+            //CD时间两秒
+            sleep(2);
+
+        }
+
+        //循环等待时间
+        usleep(100000);
+    }
+    
+}
+
 
 void homeAppSys::run(){
+
+    //线程
+    thread th(&homeAppSys::timerun,this);
 
     while(1){
         if(mComm->waitRequest()==false){
@@ -54,7 +90,9 @@ void homeAppSys::run(){
         }
         //根据jsontask来执行相应的指示，并返回结果json
         Json::Value resultjson;
+        mCoreMutex.lock();
         resultjson=mCore->doTask(jsontask);
+        mCoreMutex.unlock();
 
         //结果json传输回去
         cout<<"回传数据"<<endl;

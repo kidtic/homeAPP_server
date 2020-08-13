@@ -319,11 +319,51 @@ Json::Value homeAppCore::doSaveReturnLastTask(Json::Value task){
 
 
 bool homeAppCore::save_changeTarget(float change,string ps,bool star){
+
     return true;
 }
 bool homeAppCore::save_changeMoney(float change,string ps,bool star){
-    return true;
+    cout<<"save_changeMoney"<<endl;
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    int tableLen=mydb.getDataLen("savemoney");
+    vector<vector<string>> data= mydb.getData("savemoney",tableLen-1,1);
+    if(data.size()!=1){
+        cout<<"Error:save_changeMoney getData lenght != 1"<<endl;
+        return false;
+    }
+
+    float money= atof(data[0][2].c_str()); 
+    cout<<"lastmoney: "<<money<<endl;
+    float curmoney=money+change;
+    cout<<"curmoney: "<<curmoney<<endl;
+    //addData
+    vector<string> inin;
+    DateTime t=DateTime();
+    inin.push_back(t.toString());
+    inin.push_back(data[0][1]);//target
+    inin.push_back(to_string(curmoney));//money
+    inin.push_back("0");//targetchange
+    inin.push_back(to_string(change));//moneychange
+    inin.push_back(ps);
+    inin.push_back(star?"true":"false");
+    bool resb= mydb.addData("savemoney",inin); 
+
+    return resb;
 }
+vector<string> homeAppCore::save_returnlast(){
+    vector<string> res;
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    int tableLen=mydb.getDataLen("savemoney");
+    vector<vector<string>> data= mydb.getData("savemoney",tableLen-1,1);
+    if(data.size()!=1){
+        cout<<"Error:save_returnlast getData lenght != 1"<<endl;
+        return res;
+    }
+    return data[0];
+}
+
 
 bool homeAppCore::pay_change(float change,string ps,bool star){
     DBsql mydb;

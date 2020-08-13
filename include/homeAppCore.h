@@ -62,6 +62,7 @@ public:
     //万元计划执行
     bool save_changeTarget(float change,string ps,bool star=false);
     bool save_changeMoney(float change,string ps,bool star=false);
+    vector<string> save_returnlast();
 
 
     //pay功能
