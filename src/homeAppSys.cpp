@@ -45,7 +45,7 @@ void homeAppSys::timerun(){
         /* code */
         DateTime t=DateTime();
         //每天8点的定时算利息
-        if(t.hour==19 && t.minute==45 && t.sec==50){
+        if(t.hour==8 && t.minute==30 && t.sec==0){
             //获得最后一个
             vector<string> savedata=mCore->save_returnlast();
             float target=atof(savedata[1].c_str());
