@@ -66,7 +66,7 @@ void homeAppSys::timerun(){
 
         }
         //每月16号下午15：00加target
-        if(t.day==16 && t.hour==14 && t.minute==40 && t.sec==0){
+        if(t.day==20 && t.hour==14 && t.minute==0 && t.sec==0){
             //获得最后一个
             mCoreMutex.lock();
             vector<string> savedata=mCore->save_returnlast();
