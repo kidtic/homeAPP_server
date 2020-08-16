@@ -235,9 +235,18 @@ Json::Value homeAppCore::doSaveChangeMoneyTask(Json::Value task){
      Json::Value res;
     res["head"]="result";res["part"]="save";
     res["func"]="changemoney";res["user"]=task["user"].asString();
-    
-    
-    res["result"]="working ...";
+
+    float changemoney=task["data"]["changeMoney"].asFloat();
+    string psstr=task["data"]["ps"].asString();
+    bool star=task["data"]["star"].asBool();
+    if(save_changeMoney(changemoney,psstr,star)==true){
+        res["result"]="ok";
+    }
+    else{
+        res["result"]="error";
+    }
+
+
     return res;
 }
 Json::Value homeAppCore::doSaveChangeTargetTask(Json::Value task){
@@ -319,8 +328,33 @@ Json::Value homeAppCore::doSaveReturnLastTask(Json::Value task){
 
 
 bool homeAppCore::save_changeTarget(float change,string ps,bool star){
+    cout<<"save_changeTarget"<<endl;
+    DBsql mydb;
+    mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
+    int tableLen=mydb.getDataLen("savemoney");
+    vector<vector<string>> data= mydb.getData("savemoney",tableLen-1,1);
+    if(data.size()!=1){
+        cout<<"Error:save_changeTarget getData lenght != 1"<<endl;
+        return false;
+    }
 
-    return true;
+    float target= atof(data[0][1].c_str()); 
+    cout<<"lasttarget: "<<target<<endl;
+    float curtarget=target+change;
+    cout<<"curtarget: "<<curtarget<<endl;
+    //addData
+    vector<string> inin;
+    DateTime t=DateTime();
+    inin.push_back(t.toString());
+    inin.push_back(to_string(curtarget));//target
+    inin.push_back(data[0][2]);//money
+    inin.push_back(to_string(change));//targetchange
+    inin.push_back("0");//moneychange
+    inin.push_back(ps);
+    inin.push_back(star?"true":"false");
+    bool resb= mydb.addData("savemoney",inin); 
+
+    return resb;
 }
 bool homeAppCore::save_changeMoney(float change,string ps,bool star){
     cout<<"save_changeMoney"<<endl;

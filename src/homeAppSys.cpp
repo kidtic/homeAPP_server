@@ -47,7 +47,9 @@ void homeAppSys::timerun(){
         //每天8点的定时算利息
         if(t.hour==8 && t.minute==30 && t.sec==0){
             //获得最后一个
+            mCoreMutex.lock();
             vector<string> savedata=mCore->save_returnlast();
+            mCoreMutex.unlock();
             float target=atof(savedata[1].c_str());
             float money=atof(savedata[2].c_str());
             float rate;
@@ -62,6 +64,24 @@ void homeAppSys::timerun(){
             //CD时间两秒
             sleep(2);
 
+        }
+        //每月16号下午15：00加target
+        if(t.day==16 && t.hour==14 && t.minute==40 && t.sec==0){
+            //获得最后一个
+            mCoreMutex.lock();
+            vector<string> savedata=mCore->save_returnlast();
+            mCoreMutex.unlock();            
+            float target=atof(savedata[1].c_str());
+            float money=atof(savedata[2].c_str());
+            //查看是否过万元
+            if(target<10000){
+                mCoreMutex.lock();
+                mCore->save_changeTarget(2000,"每月增加2000元目标，当前目标值为"+to_string(target+2000));
+                mCoreMutex.unlock();
+            }
+
+            //CD时间两秒
+            sleep(2);
         }
 
         //循环等待时间
