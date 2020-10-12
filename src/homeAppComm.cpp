@@ -169,12 +169,13 @@ bool homeAppComm::initServer(){
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);//IP地址设置成INADDR_ANY,让系统自动获取本机的IP地址。  
     servaddr.sin_port = htons(port);   //设置的端口为DEFAULT_PORT  
     //将本地地址绑定到所创建的套接字上  
-    if( bind(server_fd, (struct sockaddr*)&servaddr, sizeof(servaddr)) == -1){  
-        printf("bind socket error: %s(errno: %d)\n",strerror(errno),errno);  
+    if( bind(server_fd, (struct sockaddr*)&servaddr, sizeof(servaddr)) < 0){  
+        printf("bind socket error: %s(errno: %d)\n",strerror(errno),errno); 
+        abort(); 
         return false;
     }  
     //开始监听是否有客户端连接  
-    if( listen(server_fd, 10) == -1){  
+    if( listen(server_fd, 10) < 0){  
         printf("listen socket error: %s(errno: %d)\n",strerror(errno),errno);  
         return false;  
     }
@@ -205,7 +206,7 @@ bool homeAppComm::sendmsg(string msg){
     string outdata;
     
     outdata=encrypt(msg);
-    cout<<outdata<<endl;
+    //cout<<outdata<<endl;
     return sendtoSocket(outdata);
 }
 

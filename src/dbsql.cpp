@@ -241,12 +241,14 @@ bool DBsql::addData(string table,vector<string> data)
     }
     sql+=")";
 
+    cout<<" do sql :  "<<sql<<endl;
     if (mysql_query(mysql,sql.c_str()))
     {
         errormsg=string(mysql_error(mysql));
         cout<<"Query Error: "<<mysql_error(mysql);
         return false;
     }
+    cout<<" finish sql :  "<<sql<<endl;
     return true;
 }
 /************************************************************

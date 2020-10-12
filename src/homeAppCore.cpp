@@ -108,10 +108,12 @@ Json::Value homeAppCore::doPayChangeTask(Json::Value task){
     res["func"]="change";res["user"]=task["user"].asString();
 
     if(pay_change(changemoney,psstr,star)==true){
+        cout<<"pay_change ok"<<endl;
         res["result"]="ok";
     }
     else
     {
+        cout<<"pay_change error"<<endl;
         res["result"]="error";
     }
     
@@ -425,7 +427,9 @@ bool homeAppCore::pay_change(float change,string ps,bool star){
     inin.push_back(to_string(curmoney));
     inin.push_back(ps);
     inin.push_back(star?"true":"false");
+    cout<<"goin mydb.addData"<<endl;
     bool resb= mydb.addData("pay",inin); 
+    cout<<"finish mydb.addData"<<endl;
     return resb;
 
 }

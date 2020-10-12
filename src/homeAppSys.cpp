@@ -98,6 +98,7 @@ void homeAppSys::run(){
 
     while(1){
         if(mComm->waitRequest()==false){
+            sleep(1);
             continue;
         }
         //接受命令  
