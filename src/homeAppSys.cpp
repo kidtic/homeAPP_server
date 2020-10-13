@@ -73,8 +73,8 @@ void homeAppSys::timerun(){
             mCoreMutex.unlock();            
             float target=atof(savedata[1].c_str());
             float money=atof(savedata[2].c_str());
-            //查看是否过万元
-            if(target<10000){
+            //查看是否过十万元
+            if(target<100000){
                 mCoreMutex.lock();
                 mCore->save_changeTarget(2000,"每月增加2000元目标，当前目标值为"+to_string(target+2000));
                 mCoreMutex.unlock();
