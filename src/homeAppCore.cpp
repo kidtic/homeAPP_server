@@ -39,6 +39,7 @@ Json::Value homeAppCore::doTask(Json::Value task){
 }
 
 Json::Value homeAppCore::doBasicTask(Json::Value task){
+    cout<<"request:BasicTask"<<endl;
     Json::Value res;
     if(task["func"].asString()=="login"){
         res=doBasicLoginTask(task);
@@ -77,11 +78,10 @@ Json::Value homeAppCore::doBasicRetrunTask(Json::Value task){
 
     //检测用户
     string us=task["user"].asString();
-    AppUser m_user("error","0");
-    for(auto &e:users){
-        cout<<e.username<<" "<<us<<endl;
-        if(e.username==us){  
-            m_user=e;
+    AppUser* m_user=nullptr;
+    for(int i=0;i<users.size();i++){
+        if(users[i].username==us){  
+            m_user=&users[i];
         }
     }
     //返回格式
@@ -91,20 +91,23 @@ Json::Value homeAppCore::doBasicRetrunTask(Json::Value task){
     res["func"]="return";
     res["user"]=us;
     //查看用户信息
-    if(m_user.username=="error"){
+    if(m_user==nullptr){
         res["result"]="error no user";
         return res;
     }
     res["result"]="ok";
+    cout<<"debug"<<endl;
     //数据内容
     Json::Value data;
     //取指令
-    while(!m_user.tasks.empty()) {
-        data.append(m_user.tasks.front());
-        m_user.tasks.pop();
+    while(!m_user->tasks.empty()) {
+        data.append(m_user->tasks.front());
+        m_user->tasks.pop();
     }
-    res["data"]=data;
-
+    if(data.size()!=0)
+        res["data"]=data;
+    
+    return res;
 
 }
 
