@@ -23,7 +23,7 @@ class homeAppCore
 {
 private:   //priv
     /* data */
-    queue<Json::Value> tasks;
+    
     vector<AppUser> users;
     //
 
@@ -45,7 +45,7 @@ public:
     Json::Value doTask(Json::Value task);
     Json::Value doBasicTask(Json::Value task);
     Json::Value doBasicLoginTask(Json::Value task);
-    Json::Value doBasicRetrunTask(Json::Value task);
+    Json::Value doBasicRetrunTask(Json::Value task);//重要函数，客户端周期查询
 
     Json::Value doPayTask(Json::Value task);
     Json::Value doPayChangeTask(Json::Value task);

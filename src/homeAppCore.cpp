@@ -44,7 +44,7 @@ Json::Value homeAppCore::doBasicTask(Json::Value task){
         res=doBasicLoginTask(task);
     }
     else if(task["func"].asString()=="return"){
-
+        res=doBasicRetrunTask(task);
     }
 
     return res;
@@ -52,7 +52,6 @@ Json::Value homeAppCore::doBasicTask(Json::Value task){
 }
 Json::Value homeAppCore::doBasicLoginTask(Json::Value task){
     cout<<"request:BasicLogin"<<endl;
-
     Json::Value res;
     string us=task["user"].asString();
     res["head"]="result";
@@ -62,7 +61,7 @@ Json::Value homeAppCore::doBasicLoginTask(Json::Value task){
     Json::Value data;
     data["version"]=version;
     res["data"]=data;
-    //find
+    //检测用户
     for(auto e:users){
         cout<<e.username<<" "<<us<<endl;
         if(e.username==us){  
@@ -75,6 +74,37 @@ Json::Value homeAppCore::doBasicLoginTask(Json::Value task){
     return res;
 }
 Json::Value homeAppCore::doBasicRetrunTask(Json::Value task){
+
+    //检测用户
+    string us=task["user"].asString();
+    AppUser m_user("error","0");
+    for(auto &e:users){
+        cout<<e.username<<" "<<us<<endl;
+        if(e.username==us){  
+            m_user=e;
+        }
+    }
+    //返回格式
+    Json::Value res;
+    res["head"]="result";
+    res["part"]="basic";
+    res["func"]="return";
+    res["user"]=us;
+    //查看用户信息
+    if(m_user.username=="error"){
+        res["result"]="error no user";
+        return res;
+    }
+    res["result"]="ok";
+    //数据内容
+    Json::Value data;
+    //取指令
+    while(!m_user.tasks.empty()) {
+        data.append(m_user.tasks.front());
+        m_user.tasks.pop();
+    }
+    res["data"]=data;
+
 
 }
 
