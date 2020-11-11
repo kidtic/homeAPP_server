@@ -320,5 +320,34 @@
 }
 ```
 
+## 5.上传文件到服务器
+分为两个步，第一步一个来回确认，第二部发送文件。
+```json
+{
+    "head":"request",
+    "part":"post",  //表示需要带上大文件
+    "func":"upload",
+    "user":"root",
+    "data":{
+        "TargetDir":"/xxx/xxx",
+        "filename":"xxx.xx",
+        "size":154258,   //字节单位
+        "packageSize":1024,
+        "packageNum":151 //151个包（最后一个包可能有多余的）
+    }
+}
+```
+服务器返回
+```json
+{
+    "head":"result",
+    "part":"post",  //表示需要带上大文件
+    "func":"upload",
+    "user":"kk",
+    "result":"ok"
+}
+```
+开始分包传输文件
+
 
 
