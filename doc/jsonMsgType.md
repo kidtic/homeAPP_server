@@ -72,7 +72,7 @@
     "user":"root",       //用户名称
     "data":{
         "changeNumber":-1.5,    //变动数额
-        "ps":"说明",
+        "ps":"说明 $[img](path)",  //$后面的全是附加链接，在显示的时候不用管
         "star":false            //标记，一般为false
     }
 }
@@ -320,8 +320,9 @@
 }
 ```
 
-## 5.上传文件到服务器
+## 5-1.上传文件到服务器
 分为两个步，第一步一个来回确认，第二部发送文件。
+post 一般都会带有一个大文件，所以Post的返回变量中，必须统一带有大容量的byte数组
 ```json
 {
     "head":"request",
@@ -329,7 +330,7 @@
     "func":"upload",
     "user":"root",
     "data":{
-        "TargetDir":"/xxx/xxx",
+        "TargetDir":"xxx/xxx/",
         "filename":"xxx.xx",
         "size":154258,   //字节单位
         "packageSize":1024,

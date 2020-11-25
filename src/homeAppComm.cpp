@@ -146,6 +146,7 @@ string homeAppComm::readfromSocket()
 
 bool homeAppComm::sendtoSocket(string msg)
 {
+    msg+="\r\n";
     //向客户端发送回应数据  
     if(send(socket_fd, msg.c_str(),msg.size(),0) == -1){
         perror("send error"); 
@@ -153,7 +154,26 @@ bool homeAppComm::sendtoSocket(string msg)
     }        
      
     return true;
+}
+
+bool homeAppComm::downloadfromSocket(::byte *data,int size,int packageSize)
+{
+    int fullPackageNum;//完整的包一共有多少
+    int lastPackageSize;//最后一个包有多少有效字节，如果该数为0，则代表全部都是完整包。
+    int rn;
+    fullPackageNum=size/packageSize;
+    lastPackageSize=size%packageSize;
+    ::byte* ptr=data;
+    int recvsize=0;
+    while(recvsize<size){
+        rn=recv(socket_fd,ptr,packageSize,0);
+        recvsize+=rn;
+        ptr+=rn;
+    }
     
+    
+    cout<<"recv size:"<<recvsize<<endl;
+    return true;
 }
 
 bool homeAppComm::initServer(){

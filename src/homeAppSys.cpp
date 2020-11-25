@@ -24,7 +24,9 @@ homeAppSys::homeAppSys(string configPath)
                             mConfig["mysqluser"].asString(),
                             mConfig["mysqlpasswd"].asString(),
                             mConfig["mysqldb"].asString(),
-                            mConfig["version"].asString());
+                            mConfig["version"].asString(),
+                            mConfig["fileLib"].asString());
+    filelib=mConfig["fileLib"].asString();
     mInterestRate=mConfig["InterestRate"].asFloat();
     cout<<"sys finish"<<endl;
 
@@ -118,7 +120,42 @@ void homeAppSys::run(){
         //结果json传输回去
         cout<<"回传数据"<<endl;
         mComm->sendjson(resultjson);
+
+        //查看是否有附加文件需要处理（针对post）
+        doPostTask(jsontask);
+
         close(mComm->socket_fd);
 
+        
+
     }
+}
+
+
+void homeAppSys::doPostTask(Json::Value task){
+    if(task["part"].asString()=="post"){
+        
+        if(task["func"].asString()=="upload"){
+            doPostUploadTask(task);
+        }
+        
+    }
+}
+
+void homeAppSys::doPostUploadTask(Json::Value task){
+    cout<<"recv Post data"<<endl;
+    //准备数据
+    int size=task["data"]["size"].asInt();
+    int packageSize=task["data"]["packageSize"].asInt();
+    ::byte* data=new ::byte[size];//接受缓存
+    string TargetDir=task["data"]["TargetDir"].asString();
+    string filename=task["data"]["filename"].asString();
+    //接受数据
+    mComm->downloadfromSocket(data,size,packageSize);
+    //保存到文件
+    ofstream savefile;
+    savefile.open(filelib+TargetDir+filename,ios::out | ios::binary);
+    savefile.write((const char *)data,size);
+    savefile.close();
+    delete data;
 }

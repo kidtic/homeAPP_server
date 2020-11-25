@@ -18,7 +18,7 @@ public:  //priv
     homeAppComm* mComm;
     vector<AppUser> users;
     Json::Value mConfig;
-
+    string filelib;
     //万元计划利率（万份收益）如果超过target按照正利率，如果低于target按照负利率
     float mInterestRate=0.71;
     
@@ -30,6 +30,10 @@ public:
     void run();
     //定时线程
     void timerun();
+
+    //处理附加文件
+    void doPostTask(Json::Value task);
+    void doPostUploadTask(Json::Value task);
 };
 
 

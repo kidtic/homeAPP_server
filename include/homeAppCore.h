@@ -31,10 +31,12 @@ private:   //priv
     string mysqlurl,mysqluser,mysqlpasswd,mysqldb;
     //系统版本号
     string version;
+    //文件库
+    string filelibPath;
 public:
     homeAppCore(vector<AppUser>users,string mysqlurl,
                 string mysqluser,string mysqlpasswd,
-                string mysqldb,string version);
+                string mysqldb,string version,string filelibPath);
     ~homeAppCore();
     
     
@@ -58,6 +60,9 @@ public:
     Json::Value doSaveChangeTargetTask(Json::Value task);
     Json::Value doSaveReturnTask(Json::Value task);
     Json::Value doSaveReturnLastTask(Json::Value task);
+
+    Json::Value doPostTask(Json::Value task);
+    Json::Value doPostUploadTask(Json::Value task);
 
     //万元计划执行
     bool save_changeTarget(float change,string ps,bool star=false);

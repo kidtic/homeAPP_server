@@ -4,7 +4,7 @@ using namespace std;
 
 homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,
                         string mysqluser,string mysqlpasswd,
-                        string mysqldb,string version)
+                        string mysqldb,string version,string filelibPath)
 {
     this->users=users;
     //mydb.initDB(mysqlurl,mysqluser,mysqlpasswd,mysqldb);
@@ -13,6 +13,7 @@ homeAppCore::homeAppCore(vector<AppUser> users,string mysqlurl,
     this->mysqlpasswd=mysqlpasswd;
     this->mysqldb=mysqldb;
     this->version=version;
+    this->filelibPath=filelibPath;
 }
 
 homeAppCore::~homeAppCore()
@@ -30,6 +31,9 @@ Json::Value homeAppCore::doTask(Json::Value task){
         }
         else if(task["part"].asString()=="save"){
             res=doSaveTask(task);
+        }
+        else if(task["part"].asString()=="post"){
+            res=doPostTask(task);
         }
     }
 
@@ -359,6 +363,24 @@ Json::Value homeAppCore::doSaveReturnLastTask(Json::Value task){
 
 }
 
+Json::Value homeAppCore::doPostTask(Json::Value task){
+     Json::Value res;
+     if(task["func"].asString()=="upload"){
+         res=doPostUploadTask(task);
+         
+     }
+
+
+     return res;
+}
+Json::Value homeAppCore::doPostUploadTask(Json::Value task){
+    cout<<"doPostUploadTask"<<endl;
+    Json::Value res;
+    res["head"]="result";res["part"]="post";
+    res["func"]="upload";res["user"]=task["user"].asString();
+    res["result"]="ok";
+    return res;
+}
 
 
 
