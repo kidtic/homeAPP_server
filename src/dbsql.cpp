@@ -57,7 +57,7 @@ bool DBsql::query(string sql)
     //+select
     sql="select "+sql;
     
-
+    mysql_query(mysql,"set names utf8"); 
     //mysql_query()执行成功返回0,执行失败返回非0值。
     if (mysql_query(mysql,sql.c_str()))
     {   
@@ -120,6 +120,7 @@ vector<vector<string>> DBsql::getDataWithSQL(string sql)
     vector<vector<string>> res;
     cout<<sql<<endl;
     //mysql_query()执行成功返回0,执行失败返回非0值。
+    mysql_query(mysql,"set names utf8");
     if (mysql_query(mysql,sql.c_str()))
     {
         errormsg=string(mysql_error(mysql));
